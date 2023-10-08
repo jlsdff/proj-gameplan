@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,13 @@ Route::put('/players/{id}', [PlayersController::class, 'update']);
 Route::delete('/players/{id}', [PlayersController::class, 'destroy']);
 
 
+Route::get('/teams', [TeamController::class, 'index']);
+Route::post('/teams', [TeamController::class, 'store']);
+Route::get('/teams/{id}', [TeamController::class, 'show']);
+Route::put('/teams/{id}', [TeamController::class, 'update']);
+Route::delete('/teams/{id}', [TeamController::class, 'destroy']);
+
 Route::group(['middleware' => ['auth:sanctum']], function (){
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+ 

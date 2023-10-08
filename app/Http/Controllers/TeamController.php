@@ -13,7 +13,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        //
+        return Team::all();
     }
 
     /**
@@ -21,30 +21,53 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $fields = $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $team = Team::create([
+            'name' => $fields['name'],
+        ]);
+
+        return response($team, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Team $team)
+    public function show($id)
     {
-        //
+        $team = Team::find($id);
+
+        return $team ?? response([
+            'message' => 'Team not found'
+        ], 404);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Team $team)
+    public function update(Request $request, $id)
     {
-        //
+        $team = Team::find($id);
+
+        if(!$team) {
+            return response([
+                'message' => 'Team not found'
+            ], 404);
+        }
+
+        $team->update($request->all());
+
+        return response($team, 200);
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Team $team)
+    public function destroy($id)
     {
-        //
+        return Team::find($id)->delete();
     }
 }
